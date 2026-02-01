@@ -9,7 +9,7 @@ class IvaoController extends Controller
 {
     public function refresh(IvaoFlightsService $ivao)
     {
-        $flights = $ivao->moroccanFlights();
+        $flights = $ivao->moroccanTraffic();
         return response()->json($flights);
     }
 }

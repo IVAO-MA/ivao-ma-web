@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'ivao' => [
+        'api_key' => env('IVAO_API_KEY'),
+    ],
+
 ];

@@ -54,8 +54,8 @@
         }
 
         .solid-nav {
-            background: #0D2C99;
-            /* Solid IVAO Blue */
+            background: #1A1A2E;
+            /* Match Footer Color */
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -265,7 +265,7 @@
     </header>
 
     <!-- Spacer for fixed header -->
-    <div class="h-24 bg-white"></div>
+    <div class="h-24"></div>
 
     <main class="flex-grow">
         @yield('content')
