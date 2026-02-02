@@ -330,9 +330,9 @@ This project is proprietary software for IVAO Morocco Division.
 ## Support
 
 For issues or questions:
-- **Discord**: [IVAO Morocco Discord](#)
+- **Discord**: [IVAO Morocco Discord](https://discord.gg/trNFYCRXQN)
 - **Forum**: [IVAO Morocco Forum](#)
-- **Email**: support@ivao.ma
+- **Email**: abdellah.chaaibi@ivao.aero
 
 ---
 
