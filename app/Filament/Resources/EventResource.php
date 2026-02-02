@@ -23,8 +23,16 @@ class EventResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title.en')->label('Title (EN)')->required(),
+                Forms\Components\TextInput::make('title.en')
+                    ->label('Title (EN)')
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(Forms\Set $set, ?string $state) => $set('slug', \Illuminate\Support\Str::slug($state))),
                 Forms\Components\TextInput::make('title.fr')->label('Title (FR)')->required(),
+                Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
                 Forms\Components\RichEditor::make('description.en')->label('Description (EN)')->columnSpanFull(),
                 Forms\Components\RichEditor::make('description.fr')->label('Description (FR)')->columnSpanFull(),
                 Forms\Components\DateTimePicker::make('start_at')->required(),
@@ -36,7 +44,6 @@ class EventResource extends Resource
                     'rfe' => 'RFE',
                 ])->required(),
                 Forms\Components\FileUpload::make('image_path')->image(),
-                Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
             ]);
     }
 

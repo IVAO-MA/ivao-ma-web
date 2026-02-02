@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->enum('type', ['news', 'announcement'])->default('announcement');
             $table->timestamp('published_at')->nullable();
             $table->boolean('is_pinned')->default(false);
-            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
 
             // Drop old columns if they exist
             if (Schema::hasColumn('announcements', 'is_active')) {

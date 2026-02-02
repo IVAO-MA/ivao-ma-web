@@ -42,6 +42,11 @@ class HomeController extends Controller
             ->orderBy('start_at', 'asc')
             ->first();
 
-        return view('home', compact('flights', 'events', 'ivaoEvents', 'announcements', 'liveEvent'));
+        // Fetch Active Virtual Airlines
+        $virtualAirlines = \App\Models\VirtualAirline::where('is_active', true)
+            ->orderBy('name', 'asc')
+            ->get();
+
+        return view('home', compact('flights', 'events', 'ivaoEvents', 'announcements', 'liveEvent', 'virtualAirlines'));
     }
 }

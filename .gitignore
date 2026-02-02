@@ -39,3 +39,6 @@ database/database.sqlite-journal
 ivao_*.html
 ivao_*.php
 
+
+composer.phar
+composer-setup.php
