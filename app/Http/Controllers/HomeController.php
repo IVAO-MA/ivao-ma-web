@@ -17,8 +17,7 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
-        // Fetch IVAO API Events for the new widget
-        $ivaoEvents = $ivao->fetchUpcomingEvents();
+
 
         // Fetch active announcements
         $announcements = \App\Models\Announcement::query()
@@ -47,6 +46,6 @@ class HomeController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        return view('home', compact('flights', 'events', 'ivaoEvents', 'announcements', 'liveEvent', 'virtualAirlines'));
+        return view('home', compact('flights', 'events', 'announcements', 'liveEvent', 'virtualAirlines'));
     }
 }

@@ -81,6 +81,8 @@
 
 <body class="bg-[#F8F9FA] text-slate-800 antialiased flex flex-col min-h-screen">
     <header class="fixed w-full top-0 z-50 solid-nav shadow-md transition-all duration-300">
+
+
         <div class="container mx-auto px-6 py-2 flex justify-between items-center">
             <!-- Logo -->
             <div class="flex items-center space-x-3">

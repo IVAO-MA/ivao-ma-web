@@ -132,60 +132,7 @@
     </section>
 
     <!-- Live Event Banner -->
-    @if(isset($liveEvent) && $liveEvent && !session('dismissed_live_event_' . $liveEvent->id))
-        <div id="liveEventBanner"
-            class="bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white py-4 relative overflow-hidden">
-            <!-- Animated background -->
-            <div class="absolute inset-0 opacity-20">
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse"></div>
-            </div>
 
-            <div class="container mx-auto px-6 relative z-10">
-                <div class="flex items-center justify-between flex-wrap gap-4">
-                    <div class="flex items-center gap-4 flex-1">
-                        <!-- Live Indicator -->
-                        <div class="flex items-center gap-2">
-                            <span class="relative flex h-3 w-3">
-                                <span
-                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
-                            </span>
-                            <span class="font-bold text-sm uppercase tracking-wider">LIVE NOW</span>
-                        </div>
-
-                        <!-- Event Info -->
-                        <div class="flex-1">
-                            <h3 class="font-bold text-lg">{{ $liveEvent->title }}</h3>
-                            <p class="text-sm opacity-90">
-                                Ends {{ $liveEvent->end_at->diffForHumans() }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- CTA Button -->
-                    <div class="flex items-center gap-4">
-                        @if($liveEvent->url)
-                            <a href="{{ $liveEvent->url }}" target="_blank"
-                                class="px-6 py-2 bg-white text-red-600 font-bold rounded-full hover:bg-gray-100 transition-colors shadow-lg">
-                                Join Event
-                            </a>
-                        @endif
-
-                        <!-- Dismiss Button -->
-                        <form action="{{ route('dismiss-live-event', $liveEvent->id) }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" class="text-white hover:text-gray-200 transition-colors p-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 
     <!-- About Section -->
     <section class="py-24 bg-[#F8F9FA]">
@@ -368,7 +315,7 @@
 
         <!-- Announcement Modal -->
         <div id="announcementModal"
-            class="fixed inset-0 bg-slate-900 bg-opacity-75 z-50 hidden flex items-center justify-center p-4"
+            class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
             onclick="closeAnnouncementModal(event)">
             <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
                 <div id="modalContent"></div>
@@ -444,110 +391,7 @@
     @endif
 
     <!-- Get Started Section (Keeping this for reference) -->
-    <section class="d-none">
-        <div class="d-none">
-            <div class="d-none">
-                <div class="d-none">
-                    @if(false)
-                        <div class="w-full mt-6">
-                            <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-200">
-                                <h3 class="text-xl font-bold text-slate-700 flex items-center gap-2">
-                                    <span class="block w-2.5 h-2.5 rounded-full bg-ivao-blue animate-pulse"></span>
-                                    UPCOMING EVENTS
-                                </h3>
-                                <a href="https://ivao.aero/events" target="_blank"
-                                    class="text-xs font-bold text-ivao-blue hover:underline">View All &rarr;</a>
-                            </div>
 
-                            <div class="relative">
-                                <!-- Horizontal Scroll Container -->
-                                <div
-                                    class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
-                                    @foreach($ivaoEvents as $apiEvent)
-                                        <a href="{{ $apiEvent['infoUrl'] ?? '#' }}" target="_blank"
-                                            class="min-w-[280px] w-[280px] md:min-w-[300px] snap-center bg-slate-800 rounded-xl shadow-lg border border-slate-700 overflow-hidden group hover:-translate-y-1 hover:border-[#4d9eff] transition-all duration-300 block relative">
-
-                                            <!-- Image Banner -->
-                                            <div class="h-32 w-full bg-slate-900 relative">
-                                                @if(!empty($apiEvent['imageUrl']))
-                                                    <img src="{{ $apiEvent['imageUrl'] }}" alt="{{ $apiEvent['title'] }}"
-                                                        class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
-                                                @else
-                                                    <div class="w-full h-full flex items-center justify-center text-slate-600">
-                                                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                                            </path>
-                                                        </svg>
-                                                    </div>
-                                                @endif
-
-                                                <!-- Type Badge -->
-                                                @php
-                                                    $typeColor = match (strtolower($apiEvent['eventType'] ?? '')) {
-                                                        'fly-in' => 'bg-emerald-500',
-                                                        'fly-out' => 'bg-orange-500',
-                                                        'exam' => 'bg-red-500',
-                                                        'rfe' => 'bg-purple-500',
-                                                        default => 'bg-slate-500'
-                                                    };
-                                                @endphp
-                                                <div
-                                                    class="absolute top-3 left-3 px-2 py-1 rounded text-[10px] font-bold text-white uppercase tracking-wider {{ $typeColor }} shadow-sm">
-                                                    {{ $apiEvent['eventType'] ?? 'Event' }}
-                                                </div>
-
-                                                <!-- HQE Badge -->
-                                                @if(isset($apiEvent['hqeAward']) && $apiEvent['hqeAward'])
-                                                    <div class="absolute top-3 right-3 bg-yellow-400 text-yellow-900 p-1 rounded-full shadow-sm"
-                                                        title="HQE Award Supported">
-                                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                                            </path>
-                                                        </svg>
-                                                    </div>
-                                                @endif
-                                            </div>
-
-                                            <!-- Content -->
-                                            <div class="p-4 bg-[#141e2e]">
-                                                <h4
-                                                    class="text-[#c8d6e5] font-bold leading-tight mb-2 line-clamp-2 h-10 group-hover:text-[#4d9eff] transition-colors">
-                                                    {{ $apiEvent['title'] }}
-                                                </h4>
-                                                <div class="flex items-center gap-2 mb-3 text-xs text-slate-400">
-                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                        </path>
-                                                    </svg>
-                                                    <span>
-                                                        {{ \Carbon\Carbon::parse($apiEvent['startDate'])->format('d M') }}
-                                                        @if(\Carbon\Carbon::parse($apiEvent['startDate'])->format('d M') !== \Carbon\Carbon::parse($apiEvent['endDate'])->format('d M'))
-                                                            – {{ \Carbon\Carbon::parse($apiEvent['endDate'])->format('d M') }}
-                                                        @endif
-                                                    </span>
-                                                </div>
-
-                                                <!-- Airports -->
-                                                <div class="flex flex-wrap gap-1">
-                                                    @foreach(array_slice($apiEvent['airports'] ?? [], 0, 3) as $apt)
-                                                        <span
-                                                            class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-700 text-slate-300 border border-slate-600">{{ $apt }}</span>
-                                                    @endforeach
-                                                    @if(count($apiEvent['airports'] ?? []) > 3)
-                                                        <span
-                                                            class="px-1.5 py-0.5 rounded text-[10px] text-slate-500">+{{ count($apiEvent['airports']) - 3 }}</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @endif
 
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
