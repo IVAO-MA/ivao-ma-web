@@ -7,7 +7,13 @@
     <div class="relative bg-ivao-blue text-white py-24 overflow-hidden">
         <div class="absolute inset-0 bg-[#000000]/10"></div>
         <div class="container mx-auto px-6 relative z-10 text-center">
-            <h1 class="text-5xl font-extrabold mb-4 font-heading">Events Calendar</h1>
+            <h1 class="text-5xl font-extrabold mb-4 font-heading flex items-center justify-center gap-4">
+                <svg class="w-12 h-12 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Events Calendar
+            </h1>
             <p class="text-xl text-slate-100 font-light max-w-2xl mx-auto">Join us for exciting aviation events across
                 Morocco.</p>
         </div>

@@ -12,6 +12,10 @@ class Airport extends Model
         'city',
         'frequencies',
         'runways',
+        'picture_path',
+        'scenery_link',
+        'charts_link',
+        'type',
     ];
 
     protected $casts = [

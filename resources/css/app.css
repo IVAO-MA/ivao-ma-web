@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
@@ -38,6 +39,16 @@
     --c-accent2: #1d4ed8;
     --c-green: #22c55e;
     --c-red: #ef4444;
+}
+
+.dark {
+    --c-bg: #000F14;
+    --c-card: #012538;
+    --c-border: #1e3a4a;
+    --c-text: #f1f5f9;
+    --c-muted: #94a3b8;
+    --c-accent: #3C55AC;
+    /* Lighter IVAO blue for dark mode */
 }
 
 .ivao-widget {
