@@ -358,8 +358,8 @@
                         <div id="announcement-data-{{ $announcement->id }}" class="hidden" data-title="{{ $announcement->title }}"
                             data-type="{{ $announcement->type }}"
                             data-date="{{ $announcement->published_at ? $announcement->published_at->format('M d, Y') : 'Draft' }}"
-                            data-content="{{ htmlspecialchars($announcement->content) }}"
                             data-image="{{ $announcement->image_url ?? '' }}" data-link="{{ $announcement->link_url ?? '' }}">
+                            <div class="content-html">{!! $announcement->content !!}</div>
                         </div>
                     @endforeach
                 </div>
@@ -368,7 +368,7 @@
 
         <!-- Announcement Modal -->
         <div id="announcementModal"
-            class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
+            class="fixed inset-0 bg-slate-900 bg-opacity-75 z-50 hidden flex items-center justify-center p-4"
             onclick="closeAnnouncementModal(event)">
             <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
                 <div id="modalContent"></div>
@@ -384,7 +384,7 @@
                 const title = data.dataset.title;
                 const type = data.dataset.type;
                 const date = data.dataset.date;
-                const content = data.dataset.content;
+                const content = data.querySelector('.content-html').innerHTML;
                 const image = data.dataset.image;
                 const link = data.dataset.link;
 
@@ -395,32 +395,32 @@
                 }
 
                 html += `
-                                        <div class="p-8">
-                                            <div class="flex items-center gap-2 text-xs text-slate-500 mb-4">
-                                                <span class="px-2 py-1 bg-slate-200 rounded-full font-semibold uppercase">${type}</span>
-                                                <span>${date}</span>
-                                            </div>
-                                            <h2 class="text-3xl font-bold text-slate-900 mb-6">${title}</h2>
-                                            <div class="prose prose-lg max-w-none text-slate-600">${content}</div>
-                                    `;
+                                                        <div class="p-8">
+                                                            <div class="flex items-center gap-2 text-xs text-slate-500 mb-4">
+                                                                <span class="px-2 py-1 bg-slate-200 rounded-full font-semibold uppercase">${type}</span>
+                                                                <span>${date}</span>
+                                                            </div>
+                                                            <h2 class="text-3xl font-bold text-slate-900 mb-6">${title}</h2>
+                                                            <div class="prose prose-lg max-w-none text-slate-600">${content}</div>
+                                                    `;
 
                 if (link) {
                     html += `
-                                            <div class="mt-8 pt-6 border-t border-slate-200">
-                                                <a href="${link}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-ivao-blue text-white font-bold rounded-full hover:bg-blue-900 transition-colors">
-                                                    Learn More
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        `;
+                                                            <div class="mt-8 pt-6 border-t border-slate-200">
+                                                                <a href="${link}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-ivao-blue text-white font-bold rounded-full hover:bg-blue-900 transition-colors">
+                                                                    Learn More
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                                                    </svg>
+                                                                </a>
+                                                            </div>
+                                                        `;
                 }
 
                 html += `
-                                            <button onclick="closeAnnouncementModal(event)" class="mt-6 text-slate-500 hover:text-slate-700 font-semibold">Close</button>
-                                        </div>
-                                    `;
+                                                            <button onclick="closeAnnouncementModal(event)" class="mt-6 text-slate-500 hover:text-slate-700 font-semibold">Close</button>
+                                                        </div>
+                                                    `;
 
                 modalContent.innerHTML = html;
                 modal.classList.remove('hidden');
@@ -656,12 +656,12 @@
                                         ? `<a href="https://ivao.aero/Member.aspx?ID=${f.userId}" target="_blank" class="hover:text-ivao-blue underline decoration-slate-300 underline-offset-2">${f.userId}</a>`
                                         : '—';
                                     html += `<tr class="hover:bg-slate-50/50 transition-colors">
-                                                                            <td class="px-6 py-3 font-bold text-slate-700">${f.callsign}</td>
-                                                                            <td class="px-6 py-3 text-slate-600">${vidHtml}</td>
-                                                                            <td class="px-6 py-3 text-slate-600"><strong>${f.departure}</strong> &rarr; <strong>${f.arrival}</strong></td>
-                                                                            <td class="px-6 py-3 text-slate-600">${f.aircraft}</td>
-                                                                            <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${stateClass}">${f.state}</span></td>
-                                                                        </tr>`;
+                                                                                    <td class="px-6 py-3 font-bold text-slate-700">${f.callsign}</td>
+                                                                                    <td class="px-6 py-3 text-slate-600">${vidHtml}</td>
+                                                                                    <td class="px-6 py-3 text-slate-600"><strong>${f.departure}</strong> &rarr; <strong>${f.arrival}</strong></td>
+                                                                                    <td class="px-6 py-3 text-slate-600">${f.aircraft}</td>
+                                                                                    <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${stateClass}">${f.state}</span></td>
+                                                                                </tr>`;
                                 });
                                 html += '</tbody></table>';
                                 panel.innerHTML = html;
@@ -682,25 +682,25 @@
                                     const name = getAirportName(a.icao);
 
                                     html += `<a href="/airports/${a.icao}" class="block p-4 flex items-center justify-between hover:bg-slate-50 transition-colors group border-l-4 border-transparent hover:border-ivao-blue">
-                                                                            <div class="flex items-center gap-3">
-                                                                                <div class="w-10 h-10 rounded-lg bg-ivao-blue/5 text-ivao-blue flex items-center justify-center font-bold text-sm">
-                                                                                    ${a.icao.substr(2)}
-                                                                                </div>
-                                                                                <div>
-                                                                                    <div class="font-bold text-slate-700 text-sm group-hover:text-ivao-blue transition-colors">
-                                                                                         ${a.icao}
+                                                                                    <div class="flex items-center gap-3">
+                                                                                        <div class="w-10 h-10 rounded-lg bg-ivao-blue/5 text-ivao-blue flex items-center justify-center font-bold text-sm">
+                                                                                            ${a.icao.substr(2)}
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <div class="font-bold text-slate-700 text-sm group-hover:text-ivao-blue transition-colors">
+                                                                                                 ${a.icao}
+                                                                                            </div>
+                                                                                            <div class="text-xs text-slate-400 font-medium truncate w-32">
+                                                                                                ${name}
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="text-xs text-slate-400 font-medium truncate w-32">
-                                                                                        ${name}
+                                                                                    <div>
+                                                                                        <span class="px-2 py-1 rounded-md text-xs font-bold ${a.total > 0 ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-400'}">
+                                                                                            ${a.total} <span class="font-normal opacity-70">flights</span>
+                                                                                        </span>
                                                                                     </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="px-2 py-1 rounded-md text-xs font-bold ${a.total > 0 ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-400'}">
-                                                                                    ${a.total} <span class="font-normal opacity-70">flights</span>
-                                                                                </span>
-                                                                            </div>
-                                                                        </a>`;
+                                                                                </a>`;
                                 });
                                 airportContainer.innerHTML = html;
                             }
@@ -755,6 +755,18 @@
                         </div>
                         <span
                             class="inline-block px-3 py-1 {{ $event->type == 'Exam' ? 'bg-red-50 text-ma-red' : 'bg-blue-50 text-ivao-blue' }} text-xs font-bold rounded-full mb-3 uppercase tracking-wide">{{ $event->type }}</span>
+
+                        @if($event->start_at <= now() && $event->end_at >= now())
+                            <div
+                                class="absolute top-6 right-6 flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full shadow-lg animate-pulse">
+                                <span class="relative flex h-2 w-2">
+                                    <span
+                                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                </span>
+                                <span class="text-xs font-bold uppercase tracking-wider">LIVE</span>
+                            </div>
+                        @endif
                         <h3 class="font-bold text-slate-800 text-lg mb-1 group-hover:text-ivao-blue transition-colors">
                             {{ $event->title[app()->getLocale()] ?? $event->title['en'] ?? 'Untitled' }}
                         </h3>
@@ -830,8 +842,7 @@
     <section class="py-20 bg-[#F8F9FA] border-t border-slate-200">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-extrabold text-slate-900 mb-12 font-heading tracking-tight">Our Certified VAs</h2>
-            <div
-                class="flex flex-wrap justify-center gap-12 items-center grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="flex flex-wrap justify-center gap-12 items-center transition-all duration-500">
                 @foreach($virtualAirlines as $va)
                     <a href="{{ $va->website_url ?? '#' }}" target="_blank"
                         class="group relative flex items-center justify-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
@@ -839,6 +850,8 @@
                         @if($va->logo_path)
                             <img src="{{ asset('storage/' . $va->logo_path) }}" alt="{{ $va->name }}"
                                 class="h-16 w-auto object-contain">
+                        @elseif($va->logo_url)
+                            <img src="{{ $va->logo_url }}" alt="{{ $va->name }}" class="h-16 w-auto object-contain">
                         @else
                             <span class="text-xl font-bold text-slate-800 group-hover:text-ivao-blue transition-colors">
                                 {{ $va->name }}

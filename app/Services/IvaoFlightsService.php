@@ -31,6 +31,7 @@ class IvaoFlightsService
     {
         return Cache::remember('ivao_whazzup', self::CACHE_TTL, function () {
             $response = Http::timeout(15)
+                ->withoutVerifying()
                 ->withHeaders(['Accept' => 'application/json'])
                 ->get(self::API_URL);
 

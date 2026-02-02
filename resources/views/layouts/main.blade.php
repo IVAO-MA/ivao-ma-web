@@ -32,20 +32,6 @@
             position: relative;
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background-color: #fff;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
 
         /* Improve Dropdown Hover Effect */
         .group:hover .nav-link {
@@ -54,7 +40,7 @@
         }
 
         .solid-nav {
-            background: #1A1A2E;
+            background: #00171f;
             /* Match Footer Color */
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -265,13 +251,13 @@
     </header>
 
     <!-- Spacer for fixed header -->
-    <div class="h-24"></div>
+    <div class="h-[78px]"></div>
 
     <main class="flex-grow">
         @yield('content')
     </main>
 
-    <footer class="bg-[#1A1A2E] text-slate-300 py-16 border-t border-slate-800">
+    <footer class="bg-[#00171f] text-slate-300 py-16 border-t border-slate-800">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
                 <!-- Column 1: Division -->

@@ -24,7 +24,8 @@ class VirtualAirlineResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\FileUpload::make('logo_path')->image(),
+                Forms\Components\FileUpload::make('logo_path')->image()->label('Upload Logo'),
+                Forms\Components\TextInput::make('logo_url')->url()->label('Or Logo Link (URL)')->placeholder('https://example.com/logo.png'),
                 Forms\Components\TextInput::make('website_url')->url(),
                 Forms\Components\TagsInput::make('hubs'),
                 Forms\Components\TagsInput::make('aircraft'),

@@ -13,7 +13,7 @@ class HomeController extends Controller
         $flights = $ivao->moroccanTraffic();
         // Fetch local database events for the calendar section (keep existing logic)
         $events = \App\Models\Event::orderBy('start_at', 'asc')
-            ->where('start_at', '>=', now())
+            ->where('end_at', '>=', now())
             ->take(4)
             ->get();
 

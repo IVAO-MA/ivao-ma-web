@@ -9,6 +9,7 @@ class VirtualAirline extends Model
     protected $fillable = [
         'name',
         'logo_path',
+        'logo_url',
         'website_url',
         'hubs',
         'aircraft',
