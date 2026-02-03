@@ -594,8 +594,9 @@
                 <div>
                     <p>&copy; 2026, IVAO Morocco. All Right Reserved.</p>
                 </div>
-                <div class="mt-4 md:mt-0">
+                <div class="mt-4 md:mt-0 text-right">
                     <p>Built by Abdellah C 710267</p>
+                    <p class="opacity-50 mt-1 uppercase tracking-tighter text-[10px]">v2.6.2-STABLE</p>
                 </div>
             </div>
         </div>
