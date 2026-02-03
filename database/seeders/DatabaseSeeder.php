@@ -22,5 +22,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@ivao.ma',
             'password' => bcrypt('password'),
         ]);
+
+        $this->call([
+            AirportSeeder::class,
+            ChartSeeder::class,
+            VirtualAirlineSeeder::class,
+        ]);
     }
 }

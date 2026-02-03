@@ -231,7 +231,7 @@
                 </a>
 
                 <!-- vAIP Card -->
-                <a href="#" class="{{ $resourceCardClass }}">
+                <a href="{{ route('airports.index') }}" class="{{ $resourceCardClass }}">
                     <div
                         class="w-16 h-16 mx-auto bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -366,318 +366,318 @@
                 }
 
                 html += `
-                                                                                        <div class="p-8">
-                                                                                            <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-4">
-                                                                                                <span class="px-2 py-1 bg-slate-200 dark:bg-slate-700 dark:text-slate-200 rounded-full font-semibold uppercase">${type}</span>
-                                                                                                <span>${date}</span>
-                                                                                            </div>
-                                                                                            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">${title}</h2>
-                                                                                            <div class="prose prose-lg max-w-none text-slate-600 dark:text-slate-300 dark:prose-invert">${content}</div>
-                                                                    `;
+                                                                                                <div class="p-8">
+                                                                                                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-4">
+                                                                                                        <span class="px-2 py-1 bg-slate-200 dark:bg-slate-700 dark:text-slate-200 rounded-full font-semibold uppercase">${type}</span>
+                                                                                                        <span>${date}</span>
+                                                                                                    </div>
+                                                                                                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">${title}</h2>
+                                                                                                    <div class="prose prose-lg max-w-none text-slate-600 dark:text-slate-300 dark:prose-invert">${content}</div>
+                                                                            `;
 
-                        if (link) {
-                            html += `
-                                                                                            <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
-                                                                                                <a href="${link}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-ivao-blue text-white font-bold rounded-full hover:bg-blue-900 transition-colors">
-                                                                                                    Learn More
-                                                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                                                                                    </svg>
-                                                                                                </a>
-                                                                            </div>
-                                                                                        `;
-                        }
-
-                        html += `
-                                                                                            <button onclick="closeAnnouncementModal(event)" class="mt-6 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 font-semibold">Close</button>
-                                                                        </div>
-                                                                                     `;
-
-                        modalContent.innerHTML = html;
-                        modal.classList.remove('hidden');
-                        document.body.style.overflow = 'hidden';
-                    }
-
-                    function closeAnnouncementModal(event) {
-                        event.stopPropagation();
-                        const modal = document.getElementById('announcementModal');
-                        modal.classList.add('hidden');
-                        document.body.style.overflow = 'auto';
-                    }
-
-                    // Close modal on Escape key
-                    document.addEventListener('keydown', function (e) {
-                        if (e.key === 'Escape') {
-                            closeAnnouncementModal(e);
-                        }
-                    });
-                </script>
-    @endif
-
-        <!-- Get Started Section (Keeping this for reference) -->
-
-
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                // Footer Traffic Tabs
-                const trafficTabs = document.querySelectorAll('.traffic-tab');
-                const trafficPanels = {
-                    'dep-table': document.getElementById('footer-traffic-dep'),
-                    'arr-table': document.getElementById('footer-traffic-arr')
-                };
-
-
-
-                let countdown = 60;
-                let timer;
-
-                // Initial data from server
-
-                const initialDep = @json($flights['departures'] ?? []);
-                const initialArr = @json($flights['arrivals'] ?? []);
-
-
-                renderTable('footer-traffic-dep', initialDep, 'departures');
-                renderTable('footer-traffic-arr', initialArr, 'arrivals');
-
-                // --- Tab logic (Footer) ---
-                trafficTabs.forEach(tab => {
-                    tab.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const target = tab.dataset.tab;
-
-                        // Update Tab UI
-                        trafficTabs.forEach(t => {
-                            t.classList.remove('active', 'border-ivao-blue', 'text-slate-700');
-                            t.classList.add('border-transparent', 'text-slate-500');
-                        });
-                        tab.classList.add('active', 'border-ivao-blue', 'text-slate-700');
-                        tab.classList.remove('border-transparent', 'text-slate-500');
-
-                        // Show Panel
-                        Object.values(trafficPanels).forEach(p => {
-                            if (p) p.classList.add('hidden');
-                        });
-                        if (trafficPanels[target]) {
-                            trafficPanels[target].classList.remove('hidden');
-                        }
-                    });
-                });
-
-                // --- Countdown + refresh ---
-                function tick() {
-                    const el = document.getElementById('countdown');
-                    if (countdown <= 0) { refresh(); countdown = 60; }
-                    countdown--;
-                }
-                timer = setInterval(tick, 1000);
-
-                function refresh() {
-                    fetch('{{ route("ivao.refresh") }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-                        }
-                    })
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data.error) return;
-
-                            // Update Footer Tables
-                            renderTable('footer-traffic-dep', data.departures, 'departures');
-                            renderTable('footer-traffic-arr', data.arrivals, 'arrivals');
-
-                            // Update Counts
-                            const depCount = document.getElementById('footer-dep-count');
-                            const arrCount = document.getElementById('footer-arr-count');
-                            if (depCount) depCount.textContent = data.departures.length;
-                            if (arrCount) arrCount.textContent = data.arrivals.length;
-
-                            // Update Timestamps
-                            const timeStr = formatUTC(data.updatedAt);
-                            const ftrTime = document.getElementById('footer-last-updated');
-                            if (ftrTime) ftrTime.textContent = timeStr;
-
-
-                        })
-                        .catch(e => console.error('IVAO refresh failed:', e));
+                if (link) {
+                    html += `
+                                                                                                    <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                                                                                                        <a href="${link}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-ivao-blue text-white font-bold rounded-full hover:bg-blue-900 transition-colors">
+                                                                                                            Learn More
+                                                                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                                                                                            </svg>
+                                                                                                        </a>
+                                                                                    </div>
+                                                                                                `;
                 }
 
-                function renderTable(panelId, items, type) {
-                    const panel = document.getElementById(panelId);
-                    if (!panel) return;
+                html += `
+                                                                                                    <button onclick="closeAnnouncementModal(event)" class="mt-6 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 font-semibold">Close</button>
+                                                                                </div>
+                                                                                             `;
 
-                    if (!items || items.length === 0) {
-                        panel.innerHTML = '<div class="p-8 text-center text-slate-500 dark:text-slate-400 italic">No active ' + type + ' at the moment.</div>';
-                        return;
-                    }
+                modalContent.innerHTML = html;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
 
-                    let html = '<table class="min-w-full text-left text-sm whitespace-nowrap">';
-                    html += '<thead class="uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">';
-                    html += '<tr><th class="px-6 py-3">Callsign</th><th class="px-6 py-3">VID</th><th class="px-6 py-3">Route</th><th class="px-6 py-3">Aircraft</th><th class="px-6 py-3">Status</th></tr></thead>';
-                    html += '<tbody class="divide-y divide-slate-100 dark:divide-slate-700">';
+            function closeAnnouncementModal(event) {
+                event.stopPropagation();
+                const modal = document.getElementById('announcementModal');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
 
-                    items.forEach(f => {
-                        const stateClass = getStateClass(f.state, f.onGround);
-                        const vidHtml = f.userId
-                            ? `<a href="https://ivao.aero/Member.aspx?ID=${f.userId}" target="_blank" class="hover:text-ivao-blue dark:hover:text-blue-400 underline decoration-slate-300 dark:decoration-slate-600 underline-offset-2 transition-colors">${f.userId}</a>`
-                            : '—';
-                        html += `<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                                            <td class="px-6 py-3 font-bold text-slate-700 dark:text-slate-200">${f.callsign}</td>
-                                            <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${vidHtml}</td>
-                                            <td class="px-6 py-3 text-slate-600 dark:text-slate-400"><strong>${f.departure}</strong> &rarr; <strong>${f.arrival}</strong></td>
-                                            <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${f.aircraft}</td>
-                                            <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${stateClass}">${f.state}</span></td>
-                                        </tr>`;
-                    });
-                    html += '</tbody></table>';
-                    panel.innerHTML = html;
-                }
-
-                function renderAirportList(items) {
-                    if (!airportContainer) return;
-
-                    if (!items || items.length === 0) {
-                        airportContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm italic">No data available.</div>';
-                        return;
-                    }
-
-                    let html = '';
-                    items.forEach(a => {
-                        const name = getAirportName(a.icao);
-
-                        html += `<a href="/airports/${a.icao}" class="block p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group border-l-4 border-transparent hover:border-ivao-blue">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 rounded-lg bg-ivao-blue/5 dark:bg-ivao-blue/20 text-ivao-blue dark:text-blue-400 flex items-center justify-center font-bold text-sm">
-                                                    ${a.icao.substr(2)}
-                                                </div>
-                                                <div>
-                                                    <div class="font-bold text-slate-700 dark:text-slate-200 text-sm group-hover:text-ivao-blue dark:group-hover:text-blue-400 transition-colors">
-                                                            ${a.icao}
-                                                    </div>
-                                                    <div class="text-xs text-slate-400 font-medium truncate w-32">
-                                                        ${name}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <span class="px-2 py-1 rounded-md text-xs font-bold ${a.total > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500'}">
-                                                    ${a.total} <span class="font-normal opacity-70">flights</span>
-                                                </span>
-                                            </div>
-                                        </a>`;
-                    });
-                    airportContainer.innerHTML = html;
-                }
-
-                function getAirportName(icao) {
-                    const names = {
-                        'GMMN': 'Casablanca Mohammed V',
-                        'GMME': 'Rabat Salé',
-                        'GMMX': 'Marrakech Menara',
-                        'GMFF': 'Fes Saiss',
-                        'GMAD': 'Agadir Al Massira',
-                        'GMMT': 'Tetouan Sania Ramel',
-                        'GMMI': 'Essaouira Mogador',
-                        'GMML': 'Laayoune Hassan I',
-                        'GMFM': 'Casablanca Tit Mellil',
-                        'GMFO': 'Oujda Angads',
-                        'GMTA': 'Al Hoceima Cherif Al I.'
-                    };
-                    return names[icao] || 'Morocco Airport';
-                }
-
-                function getStateClass(state, onGround) {
-                    if (onGround) return 'bg-amber-100 text-amber-700';
-                    return 'bg-sky-100 text-sky-700';
-                }
-
-                function formatUTC(iso) {
-                    if (!iso) return '—';
-                    const d = new Date(iso);
-                    return d.getUTCHours().toString().padStart(2, '0') + ':' + d.getUTCMinutes().toString().padStart(2, '0');
+            // Close modal on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeAnnouncementModal(e);
                 }
             });
         </script>
+    @endif
 
-        <!-- Division Calendar Schedule -->
-        <section
-            class="py-20 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800 transition-colors duration-300">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2
-                        class="text-3xl font-extrabold text-slate-900 dark:text-white mb-4 font-heading tracking-tight transition-colors flex items-center justify-center gap-3">
-                        <svg class="w-8 h-8 text-ivao-blue dark:text-blue-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        Division Schedule
-                    </h2>
-                    <p class="text-slate-500 dark:text-slate-400 transition-colors">Upcoming events, exams, and training
-                        sessions.</p>
-                </div>
+    <!-- Get Started Section (Keeping this for reference) -->
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @forelse($events as $event)
-                        <div
-                            class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
-                            <div
-                                class="absolute top-0 left-0 w-1.5 h-full {{ $event->type == 'Exam' ? 'bg-ma-red' : 'bg-ivao-blue' }}">
-                            </div>
 
-                            <span
-                                class="inline-block px-3 py-1 {{ $event->type == 'Exam' ? 'bg-red-50 text-ma-red dark:bg-red-900/30 dark:text-red-300' : 'bg-blue-50 text-ivao-blue dark:bg-blue-900/30 dark:text-blue-300' }} text-xs font-bold rounded-full mb-3 uppercase tracking-wide">
-                                {{ $event->type }}
-                            </span>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Footer Traffic Tabs
+            const trafficTabs = document.querySelectorAll('.traffic-tab');
+            const trafficPanels = {
+                'dep-table': document.getElementById('footer-traffic-dep'),
+                'arr-table': document.getElementById('footer-traffic-arr')
+            };
 
-                            @if($event->start_at <= now() && $event->end_at >= now())
-                                <div
-                                    class="absolute top-6 right-6 flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full shadow-lg animate-pulse">
-                                    <span class="relative flex h-2 w-2">
-                                        <span
-                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                                    </span>
-                                    <span class="text-xs font-bold uppercase tracking-wider">LIVE</span>
-                                </div>
-                            @endif
 
-                            <h3
-                                class="font-bold text-slate-800 dark:text-white text-lg mb-1 group-hover:text-ivao-blue dark:group-hover:text-blue-400 transition-colors">
-                                {{ $event->title[app()->getLocale()] ?? $event->title['en'] ?? 'Untitled' }}
-                            </h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-sm mb-4">
-                                {{ $event->start_at->format('l, d M • Hi') }}z
-                            </p>
 
-                            <a href="{{ route('events.index') }}"
-                                class="text-sm font-bold {{ $event->type == 'Exam' ? 'text-ma-red dark:text-red-400' : 'text-ivao-blue dark:text-blue-400' }} hover:underline">
-                                {{ $event->type == 'Exam' ? 'Details' : 'View Details' }} &rarr;
-                            </a>
-                        </div>
-                    @empty
-                        <div class="col-span-4 text-center py-10">
-                            <p class="text-slate-500 dark:text-slate-400">No upcoming events scheduled.</p>
-                        </div>
-                    @endforelse
-                </div>
+            let countdown = 60;
+            let timer;
 
-                <div class="mt-12 flex justify-center">
-                    <a href="{{ route('events.index') }}"
-                        class="px-6 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                        View Full Calendar
-                    </a>
-                </div>
+            // Initial data from server
+
+            const initialDep = @json($flights['departures'] ?? []);
+            const initialArr = @json($flights['arrivals'] ?? []);
+
+
+            renderTable('footer-traffic-dep', initialDep, 'departures');
+            renderTable('footer-traffic-arr', initialArr, 'arrivals');
+
+            // --- Tab logic (Footer) ---
+            trafficTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = tab.dataset.tab;
+
+                    // Update Tab UI
+                    trafficTabs.forEach(t => {
+                        t.classList.remove('active', 'border-ivao-blue', 'text-slate-700');
+                        t.classList.add('border-transparent', 'text-slate-500');
+                    });
+                    tab.classList.add('active', 'border-ivao-blue', 'text-slate-700');
+                    tab.classList.remove('border-transparent', 'text-slate-500');
+
+                    // Show Panel
+                    Object.values(trafficPanels).forEach(p => {
+                        if (p) p.classList.add('hidden');
+                    });
+                    if (trafficPanels[target]) {
+                        trafficPanels[target].classList.remove('hidden');
+                    }
+                });
+            });
+
+            // --- Countdown + refresh ---
+            function tick() {
+                const el = document.getElementById('countdown');
+                if (countdown <= 0) { refresh(); countdown = 60; }
+                countdown--;
+            }
+            timer = setInterval(tick, 1000);
+
+            function refresh() {
+                fetch('{{ route("ivao.refresh") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.error) return;
+
+                        // Update Footer Tables
+                        renderTable('footer-traffic-dep', data.departures, 'departures');
+                        renderTable('footer-traffic-arr', data.arrivals, 'arrivals');
+
+                        // Update Counts
+                        const depCount = document.getElementById('footer-dep-count');
+                        const arrCount = document.getElementById('footer-arr-count');
+                        if (depCount) depCount.textContent = data.departures.length;
+                        if (arrCount) arrCount.textContent = data.arrivals.length;
+
+                        // Update Timestamps
+                        const timeStr = formatUTC(data.updatedAt);
+                        const ftrTime = document.getElementById('footer-last-updated');
+                        if (ftrTime) ftrTime.textContent = timeStr;
+
+
+                    })
+                    .catch(e => console.error('IVAO refresh failed:', e));
+            }
+
+            function renderTable(panelId, items, type) {
+                const panel = document.getElementById(panelId);
+                if (!panel) return;
+
+                if (!items || items.length === 0) {
+                    panel.innerHTML = '<div class="p-8 text-center text-slate-500 dark:text-slate-400 italic">No active ' + type + ' at the moment.</div>';
+                    return;
+                }
+
+                let html = '<table class="min-w-full text-left text-sm whitespace-nowrap">';
+                html += '<thead class="uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">';
+                html += '<tr><th class="px-6 py-3">Callsign</th><th class="px-6 py-3">VID</th><th class="px-6 py-3">Route</th><th class="px-6 py-3">Aircraft</th><th class="px-6 py-3">Status</th></tr></thead>';
+                html += '<tbody class="divide-y divide-slate-100 dark:divide-slate-700">';
+
+                items.forEach(f => {
+                    const stateClass = getStateClass(f.state, f.onGround);
+                    const vidHtml = f.userId
+                        ? `<a href="https://ivao.aero/Member.aspx?ID=${f.userId}" target="_blank" class="hover:text-ivao-blue dark:hover:text-blue-400 underline decoration-slate-300 dark:decoration-slate-600 underline-offset-2 transition-colors">${f.userId}</a>`
+                        : '—';
+                    html += `<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                                                <td class="px-6 py-3 font-bold text-slate-700 dark:text-slate-200">${f.callsign}</td>
+                                                <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${vidHtml}</td>
+                                                <td class="px-6 py-3 text-slate-600 dark:text-slate-400"><strong>${f.departure}</strong> &rarr; <strong>${f.arrival}</strong></td>
+                                                <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${f.aircraft}</td>
+                                                <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${stateClass}">${f.state}</span></td>
+                                            </tr>`;
+                });
+                html += '</tbody></table>';
+                panel.innerHTML = html;
+            }
+
+            function renderAirportList(items) {
+                if (!airportContainer) return;
+
+                if (!items || items.length === 0) {
+                    airportContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm italic">No data available.</div>';
+                    return;
+                }
+
+                let html = '';
+                items.forEach(a => {
+                    const name = getAirportName(a.icao);
+
+                    html += `<a href="/airports/${a.icao}" class="block p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group border-l-4 border-transparent hover:border-ivao-blue">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-10 h-10 rounded-lg bg-ivao-blue/5 dark:bg-ivao-blue/20 text-ivao-blue dark:text-blue-400 flex items-center justify-center font-bold text-sm">
+                                                        ${a.icao.substr(2)}
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-bold text-slate-700 dark:text-slate-200 text-sm group-hover:text-ivao-blue dark:group-hover:text-blue-400 transition-colors">
+                                                                ${a.icao}
+                                                        </div>
+                                                        <div class="text-xs text-slate-400 font-medium truncate w-32">
+                                                            ${name}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span class="px-2 py-1 rounded-md text-xs font-bold ${a.total > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500'}">
+                                                        ${a.total} <span class="font-normal opacity-70">flights</span>
+                                                    </span>
+                                                </div>
+                                            </a>`;
+                });
+                airportContainer.innerHTML = html;
+            }
+
+            function getAirportName(icao) {
+                const names = {
+                    'GMMN': 'Casablanca Mohammed V',
+                    'GMME': 'Rabat Salé',
+                    'GMMX': 'Marrakech Menara',
+                    'GMFF': 'Fes Saiss',
+                    'GMAD': 'Agadir Al Massira',
+                    'GMMT': 'Tetouan Sania Ramel',
+                    'GMMI': 'Essaouira Mogador',
+                    'GMML': 'Laayoune Hassan I',
+                    'GMFM': 'Casablanca Tit Mellil',
+                    'GMFO': 'Oujda Angads',
+                    'GMTA': 'Al Hoceima Cherif Al I.'
+                };
+                return names[icao] || 'Morocco Airport';
+            }
+
+            function getStateClass(state, onGround) {
+                if (onGround) return 'bg-amber-100 text-amber-700';
+                return 'bg-sky-100 text-sky-700';
+            }
+
+            function formatUTC(iso) {
+                if (!iso) return '—';
+                const d = new Date(iso);
+                return d.getUTCHours().toString().padStart(2, '0') + ':' + d.getUTCMinutes().toString().padStart(2, '0');
+            }
+        });
+    </script>
+
+    <!-- Division Calendar Schedule -->
+    <section
+        class="py-20 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2
+                    class="text-3xl font-extrabold text-slate-900 dark:text-white mb-4 font-heading tracking-tight transition-colors flex items-center justify-center gap-3">
+                    <svg class="w-8 h-8 text-ivao-blue dark:text-blue-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    Division Schedule
+                </h2>
+                <p class="text-slate-500 dark:text-slate-400 transition-colors">Upcoming events, exams, and training
+                    sessions.</p>
             </div>
-        </section>
 
-        <!-- Live Traffic Table -->
-        <section
-            class="py-16 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-            <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                @forelse($events as $event)
+                    <div
+                        class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
+                        <div
+                            class="absolute top-0 left-0 w-1.5 h-full {{ $event->type == 'Exam' ? 'bg-ma-red' : 'bg-ivao-blue' }}">
+                        </div>
+
+                        <span
+                            class="inline-block px-3 py-1 {{ $event->type == 'Exam' ? 'bg-red-50 text-ma-red dark:bg-red-900/30 dark:text-red-300' : 'bg-blue-50 text-ivao-blue dark:bg-blue-900/30 dark:text-blue-300' }} text-xs font-bold rounded-full mb-3 uppercase tracking-wide">
+                            {{ $event->type }}
+                        </span>
+
+                        @if($event->start_at <= now() && $event->end_at >= now())
+                            <div
+                                class="absolute top-6 right-6 flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full shadow-lg animate-pulse">
+                                <span class="relative flex h-2 w-2">
+                                    <span
+                                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                </span>
+                                <span class="text-xs font-bold uppercase tracking-wider">LIVE</span>
+                            </div>
+                        @endif
+
+                        <h3
+                            class="font-bold text-slate-800 dark:text-white text-lg mb-1 group-hover:text-ivao-blue dark:group-hover:text-blue-400 transition-colors">
+                            {{ $event->title[app()->getLocale()] ?? $event->title['en'] ?? 'Untitled' }}
+                        </h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mb-4">
+                            {{ $event->start_at->format('l, d M • Hi') }}z
+                        </p>
+
+                        <a href="{{ route('events.index') }}"
+                            class="text-sm font-bold {{ $event->type == 'Exam' ? 'text-ma-red dark:text-red-400' : 'text-ivao-blue dark:text-blue-400' }} hover:underline">
+                            {{ $event->type == 'Exam' ? 'Details' : 'View Details' }} &rarr;
+                        </a>
+                    </div>
+                @empty
+                    <div class="col-span-4 text-center py-10">
+                        <p class="text-slate-500 dark:text-slate-400">No upcoming events scheduled.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <div class="mt-12 flex justify-center">
+                <a href="{{ route('events.index') }}"
+                    class="px-6 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    View Full Calendar
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Traffic Table -->
+    <section
+        class="py-16 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div class="container mx-auto px-6">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12 relative">
                     <h2
@@ -697,7 +697,8 @@
                         <span
                             class="text-sm text-slate-400 font-mono bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-100 dark:border-slate-700">
                             Map Update: <span
-                                id="footer-last-updated">{{ date('H:i', strtotime($flights['updatedAt'] ?? 'now')) }}</span> z
+                                id="footer-last-updated">{{ date('H:i', strtotime($flights['updatedAt'] ?? 'now')) }}</span>
+                            z
                         </span>
                     </div>
                 </div>
@@ -733,47 +734,47 @@
                     </div>
                 </div>
             </div>
-        </section>
+    </section>
 
-        <!-- Certified VAs Section -->
-        <section
-            class="py-20 bg-[#F8F9FA] dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-            <div class="container mx-auto px-6 text-center">
-                <h2
-                    class="text-2xl font-bold text-slate-900 dark:text-white mb-8 uppercase tracking-widest transition-colors flex items-center justify-center gap-3">
-                    <svg class="w-6 h-6 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                        </path>
-                    </svg>
-                    Certified Virtual Airlines
-                </h2>
-                <p class="text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto transition-colors">
-                    We are proud to partner with these certified Virtual Airlines that operate within the Morocco division.
-                </p>
+    <!-- Certified VAs Section -->
+    <section
+        class="py-20 bg-[#F8F9FA] dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div class="container mx-auto px-6 text-center">
+            <h2
+                class="text-2xl font-bold text-slate-900 dark:text-white mb-8 uppercase tracking-widest transition-colors flex items-center justify-center gap-3">
+                <svg class="w-6 h-6 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                </svg>
+                Certified Virtual Airlines
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto transition-colors">
+                We are proud to partner with these certified Virtual Airlines that operate within the Morocco division.
+            </p>
 
-                <div
-                    class="flex flex-wrap justify-center items-center gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                    @forelse($virtualAirlines as $va)
-                        <div class="flex flex-col items-center gap-2">
-                            @if($va->logo_url)
-                                <img src="{{ $va->logo_url }}" alt="{{ $va->name }}" class="h-16 w-auto object-contain">
-                            @else
-                                <div class="h-16 w-32 bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center">
-                                    <span class="text-slate-600 dark:text-slate-400 font-bold text-sm">{{ $va->name }}</span>
-                                </div>
-                            @endif
-                        </div>
-                    @empty
-                        <p class="text-slate-500 dark:text-slate-400 italic">No certified virtual airlines yet.</p>
-                    @endforelse
-                </div>
-
-                <div class="mt-12">
-                    <a href="#" class="text-ivao-blue dark:text-blue-400 font-bold hover:underline">Register your Virtual
-                        Airline &rarr;</a>
-                </div>
+            <div
+                class="flex flex-wrap justify-center items-center gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                @forelse($virtualAirlines as $va)
+                    <div class="flex flex-col items-center gap-2">
+                        @if($va->logo_url)
+                            <img src="{{ $va->logo_url }}" alt="{{ $va->name }}" class="h-16 w-auto object-contain">
+                        @else
+                            <div class="h-16 w-32 bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center">
+                                <span class="text-slate-600 dark:text-slate-400 font-bold text-sm">{{ $va->name }}</span>
+                            </div>
+                        @endif
+                    </div>
+                @empty
+                    <p class="text-slate-500 dark:text-slate-400 italic">No certified virtual airlines yet.</p>
+                @endforelse
             </div>
-        </section>
+
+            <div class="mt-12">
+                <a href="#" class="text-ivao-blue dark:text-blue-400 font-bold hover:underline">Register your Virtual
+                    Airline &rarr;</a>
+            </div>
+        </div>
+    </section>
 @endsection

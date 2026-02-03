@@ -11,7 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('virtual_airlines', function (Blueprint $table) {
-            $table->string('logo_url')->nullable()->after('logo_path');
+            $table->string('logo_path')->nullable()->after('logo_url');
+            $table->boolean('is_active')->default(true)->after('status');
         });
     }
 
@@ -21,7 +22,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('virtual_airlines', function (Blueprint $table) {
-            $table->dropColumn('logo_url');
+            $table->dropColumn(['logo_path', 'is_active']);
         });
     }
 };

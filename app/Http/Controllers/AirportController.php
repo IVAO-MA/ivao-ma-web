@@ -8,7 +8,6 @@ class AirportController extends Controller
 {
     public function index()
     {
-        $airports = \App\Models\Airport::orderBy('icao', 'asc')->get();
-        return view('airports.index', compact('airports'));
+        return view('eaip.index');
     }
 }

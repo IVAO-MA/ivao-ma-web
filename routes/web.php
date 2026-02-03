@@ -8,7 +8,7 @@ use App\Http\Controllers\WikiController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/airports', [AirportController::class, 'index'])->name('airports.index');
+Route::get('/vaip', [AirportController::class, 'index'])->name('airports.index');
 Route::get('/wiki', [WikiController::class, 'index'])->name('wiki.index');
 Route::get('/wiki/{slug}', [WikiController::class, 'show'])->name('wiki.show');
 Route::get('/learning-pathways', [App\Http\Controllers\LearningPathwayController::class, 'index'])->name('learning-pathways.index');

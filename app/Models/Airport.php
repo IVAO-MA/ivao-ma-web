@@ -16,12 +16,21 @@ class Airport extends Model
         'scenery_link',
         'charts_link',
         'type',
+        'latitude',
+        'longitude',
+        'iata',
+        'country',
+        'scheduled_service',
     ];
 
     protected $casts = [
-        'name' => 'array',
-        'city' => 'array',
-        'frequencies' => 'array',
         'runways' => 'array',
+        'frequencies' => 'array',
     ];
+
+
+    public function charts()
+    {
+        return $this->hasMany(Chart::class);
+    }
 }
