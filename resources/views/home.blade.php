@@ -142,7 +142,7 @@
 
 
     <!-- About Section -->
-    <section class="py-24 bg-[#F8F9FA]dark:bg-slate-900 transition-colors duration-300">
+    <section class="py-24 bg-[#F8F9FA] dark:bg-slate-900 transition-colors duration-300">
         <div class="container mx-auto px-6">
             <div class="flex flex-col items-center justify-center text-center max-w-4xl mx-auto mb-16">
                 <!-- Brand Logo (SVG) - Force Dark mode logo logic via filter or dual image -->
@@ -251,7 +251,7 @@
 
     <!-- News & Announcements Section -->
     @if($announcements->count() > 0)
-        <section class="py-20 bg-whitedark:bg-slate-900 transition-colors duration-300">
+        <section class="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
             <div class="container mx-auto px-6">
                 <div class="container mx-auto px-6">
                     <div class="text-center mb-12">
@@ -600,9 +600,6 @@
                 }
             });
         </script>
-        </div>
-        </div>
-        </section>
 
         <!-- Division Calendar Schedule -->
         <section
@@ -758,11 +755,19 @@
 
                 <div
                     class="flex flex-wrap justify-center items-center gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                    <!-- Example VA Logos (Placeholder) -->
-                    <div class="h-12 w-32 bg-slate-300 dark:bg-slate-700 rounded animate-pulse"></div>
-                    <div class="h-12 w-32 bg-slate-300 dark:bg-slate-700 rounded animate-pulse"></div>
-                    <div class="h-12 w-32 bg-slate-300 dark:bg-slate-700 rounded animate-pulse"></div>
-                    <div class="h-12 w-32 bg-slate-300 dark:bg-slate-700 rounded animate-pulse"></div>
+                    @forelse($virtualAirlines as $va)
+                        <div class="flex flex-col items-center gap-2">
+                            @if($va->logo_url)
+                                <img src="{{ $va->logo_url }}" alt="{{ $va->name }}" class="h-16 w-auto object-contain">
+                            @else
+                                <div class="h-16 w-32 bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center">
+                                    <span class="text-slate-600 dark:text-slate-400 font-bold text-sm">{{ $va->name }}</span>
+                                </div>
+                            @endif
+                        </div>
+                    @empty
+                        <p class="text-slate-500 dark:text-slate-400 italic">No certified virtual airlines yet.</p>
+                    @endforelse
                 </div>
 
                 <div class="mt-12">

@@ -14,7 +14,7 @@ Route::get('/wiki/{slug}', [WikiController::class, 'show'])->name('wiki.show');
 Route::get('/learning-pathways', [App\Http\Controllers\LearningPathwayController::class, 'index'])->name('learning-pathways.index');
 
 // Placeholder Routes for Menu Items
-Route::view('/virtual-airlines', 'coming-soon')->name('virtual-airlines.index');
+Route::get('/virtual-airlines', [App\Http\Controllers\VirtualAirlineController::class, 'index'])->name('virtual-airlines.index');
 Route::view('/coming-soon', 'coming-soon')->name('coming-soon');
 
 Route::get('locale/{locale}', function ($locale) {
