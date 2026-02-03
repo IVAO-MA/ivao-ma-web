@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             AirportSeeder::class,
             ChartSeeder::class,
             VirtualAirlineSeeder::class,
+            AnnouncementSeeder::class,
         ]);
     }
 }
