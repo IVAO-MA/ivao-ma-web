@@ -230,7 +230,7 @@
                 </a>
 
                 <!-- vAIP Card -->
-                <a href="{{ route('airports.index') }}" class="{{ $resourceCardClass }}">
+                <a href="{{ route('vaip.index') }}" class="{{ $resourceCardClass }}">
                     <div
                         class="w-16 h-16 mx-auto bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
