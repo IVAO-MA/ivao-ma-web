@@ -22,6 +22,7 @@ class Airport extends Model
         'longitude',
         'iata',
         'country',
+        'elevation_ft',
         'scheduled_service',
     ];
 

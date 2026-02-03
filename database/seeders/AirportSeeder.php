@@ -95,7 +95,7 @@ class AirportSeeder extends Seeder
             sleep(1); // Avoid rate limiting
 
             try {
-                $response = Http::get("https://airportdb.io/api/v1/airport/{$icao}", [
+                $response = Http::withoutVerifying()->get("https://airportdb.io/api/v1/airport/{$icao}", [
                     'apiToken' => $apiToken
                 ]);
 
