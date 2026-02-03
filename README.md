@@ -6,12 +6,27 @@ Official website for the IVAO Morocco Division, built with Laravel 12 and featur
 
 ## Features
 
-- **Modern Design**: Glassmorphism effects with IVAO Blue and Moroccan Red/Green accents
-- **Live Network Data**: Real-time display of departures/arrivals from Moroccan airports via IVAO API
-- **Admin Panel**: Filament-powered admin interface for content management
-- **Multi-language Support**: English and French localization
-- **Responsive Layout**: Mobile-first design with Tailwind CSS
-- **Dynamic Content**: Events, airports, wiki articles, and virtual airlines management
+- **Interactive vAIP (Aeronautical Information Publication)**:
+  - Real-time interactive map with Leaflet integration.
+  - Categorized airport markers (Large, Medium, Small) with dynamic scaling.
+  - Detailed side panels featuring Runways, Frequencies, Aeronautical Charts, and real-time METAR.
+  - Fast search by ICAO, IATA, City, or Name.
+- **Enhanced Airport & Scenery Directory**:
+  - Database of all Moroccan airports with `airportdb.io` API integration.
+  - Permanent default scenery links for major hubs (MSFS, Freeware/Payware).
+  - Localized name support (English/French/Arabic) via JSON-cast fields.
+- **Modern UI/UX**:
+  - High-fidelity design with Glassmorphism and Moroccan brand accents.
+  - **Native Dark Mode** supported globally across all pages and the vAIP tool.
+  - Fully responsive layout optimized for all devices.
+- **Live Network Integration**:
+  - Real-time display of departures/arrivals from Moroccan airports via IVAO Whazzup API.
+  - Live Event banners showing division activities in real-time.
+- **Administrative Control**:
+  - **Filament 3.x Panels** for managing Airports, Events, Charts, and Virtual Airlines.
+- **Division Resources**:
+  - Interactive **Learning Pathways** for both Pilots and Controllers.
+  - Integrated Wiki, Discord community links, and GitHub Sectorfiles repository.
 
 ## Tech Stack
 

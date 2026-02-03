@@ -56,6 +56,40 @@ class AirportSeeder extends Seeder
             'GMMA'
         ];
 
+        // Default Scenery Data Map
+        $sceneryData = [
+            'GMMN' => [
+                'link' => 'https://flightsim.to/file/14986/mohammed-v-intl-casablanca-gmmn',
+                'sim' => 'MSFS',
+                'type' => 'freeware'
+            ],
+            'GMMX' => [
+                'link' => 'https://flightsim.to/file/10206/gmab-marrakech-menara-airport',
+                'sim' => 'MSFS',
+                'type' => 'freeware'
+            ],
+            'GMFF' => [
+                'link' => 'https://flightsim.to/file/27986/gmff-fes-saiss-airport',
+                'sim' => 'MSFS',
+                'type' => 'freeware'
+            ],
+            'GMTT' => [
+                'link' => 'https://flightsim.to/file/28412/gmtt-tangier-ibn-battouta-airport',
+                'sim' => 'MSFS',
+                'type' => 'freeware'
+            ],
+            'GMAD' => [
+                'link' => 'https://flightsim.to/file/32415/gmad-al-massira-airport',
+                'sim' => 'MSFS',
+                'type' => 'freeware'
+            ],
+            'GMME' => [
+                'link' => 'https://flightsim.to/file/29123/gmme-rabat-sale-airport',
+                'sim' => 'MSFS',
+                'type' => 'freeware'
+            ]
+        ];
+
         foreach ($icaos as $icao) {
             $this->command->info("Fetching data for $icao...");
             sleep(1); // Avoid rate limiting
@@ -77,11 +111,17 @@ class AirportSeeder extends Seeder
                         return $value ?? '';
                     };
 
+                    $name = $getName($data['name']);
+                    $city = $getName($data['municipality']);
+
+                    // Current scenery for this ICAO if exists
+                    $scenery = $sceneryData[$icao] ?? null;
+
                     Airport::updateOrCreate(
                         ['icao' => $data['icao_code']],
                         [
-                            'name' => $getName($data['name']),
-                            'city' => $getName($data['municipality']), // AirportDB uses 'municipality' for city
+                            'name' => ['en' => $name], // Save as array for JSON casting
+                            'city' => ['en' => $city], // Save as array for JSON casting
                             'country' => $data['iso_country'],
                             'iata' => $data['iata_code'],
                             'latitude' => $data['latitude_deg'],
@@ -90,8 +130,11 @@ class AirportSeeder extends Seeder
                             'type' => $data['type'], // small_airport, medium_airport, large_airport
                             'website_link' => $data['home_link'] ?? null,
                             'wikipedia_link' => $data['wikipedia_link'] ?? null,
-                            'runways' => json_encode($data['runways'] ?? []),
-                            'frequencies' => json_encode($data['freqs'] ?? []),
+                            'runways' => $data['runways'] ?? [],
+                            'frequencies' => $data['freqs'] ?? [],
+                            'scenery_link' => $scenery['link'] ?? null,
+                            'scenery_sim' => $scenery['sim'] ?? null,
+                            'scenery_type' => $scenery['type'] ?? 'freeware',
                         ]
                     );
 

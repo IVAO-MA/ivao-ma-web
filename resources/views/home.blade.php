@@ -24,8 +24,7 @@
             </h1>
             <p
                 class="text-xl md:text-2xl text-slate-100 mb-12 font-light max-w-2xl mx-auto leading-relaxed drop-shadow-lg text-shadow-sm">
-                The Gateway to Africa. Discover a land of diverse landscapes, rich culture, and challenging aviation
-                adventures.
+                Gateway to Africa. Crossroads of Continents. Home of Hospitality.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-8 justify-center items-center">
@@ -54,7 +53,7 @@
                 @endphp
 
                 <!-- Get Started -->
-                <a href="{{ route('coming-soon') }}" class="{{ $actionCardClass }}">
+                <a href="{{ route('learning-pathways.index') }}" class="{{ $actionCardClass }}">
                     <div
                         class="w-12 h-12 rounded-full bg-ivao-blue/10 dark:bg-ivao-blue/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 text-ivao-blue dark:text-blue-400" fill="none" stroke="currentColor"
@@ -94,7 +93,7 @@
                 </a>
 
                 <!-- Charts -->
-                <a href="{{ route('airports.index') }}" class="{{ $actionCardClass }}">
+                <a href="{{ route('vaip.index') }}" class="{{ $actionCardClass }}">
                     <div
                         class="w-12 h-12 rounded-full bg-ma-red/10 dark:bg-ma-red/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 text-ma-red dark:text-red-400" fill="none" stroke="currentColor"
@@ -108,7 +107,7 @@
                 </a>
 
                 <!-- Sectorfiles -->
-                <a href="{{ route('coming-soon') }}" class="{{ $actionCardClass }}">
+                <a href="https://github.com/IVAO-MA/sector-files" target="_blank" class="{{ $actionCardClass }}">
                     <div
                         class="w-12 h-12 rounded-full bg-ivao-green/10 dark:bg-ivao-green/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 text-ivao-green dark:text-green-400" fill="none" stroke="currentColor"
@@ -366,32 +365,32 @@
                 }
 
                 html += `
-                                                                                                <div class="p-8">
-                                                                                                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-4">
-                                                                                                        <span class="px-2 py-1 bg-slate-200 dark:bg-slate-700 dark:text-slate-200 rounded-full font-semibold uppercase">${type}</span>
-                                                                                                        <span>${date}</span>
-                                                                                                    </div>
-                                                                                                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">${title}</h2>
-                                                                                                    <div class="prose prose-lg max-w-none text-slate-600 dark:text-slate-300 dark:prose-invert">${content}</div>
-                                                                            `;
+                                                                                                                        <div class="p-8">
+                                                                                                                            <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-4">
+                                                                                                                                <span class="px-2 py-1 bg-slate-200 dark:bg-slate-700 dark:text-slate-200 rounded-full font-semibold uppercase">${type}</span>
+                                                                                                                                <span>${date}</span>
+                                                                                                                            </div>
+                                                                                                                            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">${title}</h2>
+                                                                                                                            <div class="prose prose-lg max-w-none text-slate-600 dark:text-slate-300 dark:prose-invert">${content}</div>
+                                                                                        `;
 
                 if (link) {
                     html += `
-                                                                                                    <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
-                                                                                                        <a href="${link}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-ivao-blue text-white font-bold rounded-full hover:bg-blue-900 transition-colors">
-                                                                                                            Learn More
-                                                                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                                                                                            </svg>
-                                                                                                        </a>
-                                                                                    </div>
-                                                                                                `;
+                                                                                                                            <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                                                                                                                                <a href="${link}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-ivao-blue text-white font-bold rounded-full hover:bg-blue-900 transition-colors">
+                                                                                                                                    Learn More
+                                                                                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                                                                                                                    </svg>
+                                                                                                                                </a>
+                                                                                                            </div>
+                                                                                                                        `;
                 }
 
                 html += `
-                                                                                                    <button onclick="closeAnnouncementModal(event)" class="mt-6 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 font-semibold">Close</button>
-                                                                                </div>
-                                                                                             `;
+                                                                                                                            <button onclick="closeAnnouncementModal(event)" class="mt-6 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 font-semibold">Close</button>
+                                                                                                        </div>
+                                                                                                                     `;
 
                 modalContent.innerHTML = html;
                 modal.classList.remove('hidden');
@@ -524,12 +523,12 @@
                         ? `<a href="https://ivao.aero/Member.aspx?ID=${f.userId}" target="_blank" class="hover:text-ivao-blue dark:hover:text-blue-400 underline decoration-slate-300 dark:decoration-slate-600 underline-offset-2 transition-colors">${f.userId}</a>`
                         : '—';
                     html += `<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                                                <td class="px-6 py-3 font-bold text-slate-700 dark:text-slate-200">${f.callsign}</td>
-                                                <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${vidHtml}</td>
-                                                <td class="px-6 py-3 text-slate-600 dark:text-slate-400"><strong>${f.departure}</strong> &rarr; <strong>${f.arrival}</strong></td>
-                                                <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${f.aircraft}</td>
-                                                <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${stateClass}">${f.state}</span></td>
-                                            </tr>`;
+                                                            <td class="px-6 py-3 font-bold text-slate-700 dark:text-slate-200">${f.callsign}</td>
+                                                            <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${vidHtml}</td>
+                                                            <td class="px-6 py-3 text-slate-600 dark:text-slate-400"><strong>${f.departure}</strong> &rarr; <strong>${f.arrival}</strong></td>
+                                                            <td class="px-6 py-3 text-slate-600 dark:text-slate-400">${f.aircraft}</td>
+                                                            <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${stateClass}">${f.state}</span></td>
+                                                        </tr>`;
                 });
                 html += '</tbody></table>';
                 panel.innerHTML = html;
@@ -548,25 +547,25 @@
                     const name = getAirportName(a.icao);
 
                     html += `<a href="/airports/${a.icao}" class="block p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group border-l-4 border-transparent hover:border-ivao-blue">
-                                                <div class="flex items-center gap-3">
-                                                    <div class="w-10 h-10 rounded-lg bg-ivao-blue/5 dark:bg-ivao-blue/20 text-ivao-blue dark:text-blue-400 flex items-center justify-center font-bold text-sm">
-                                                        ${a.icao.substr(2)}
-                                                    </div>
-                                                    <div>
-                                                        <div class="font-bold text-slate-700 dark:text-slate-200 text-sm group-hover:text-ivao-blue dark:group-hover:text-blue-400 transition-colors">
-                                                                ${a.icao}
-                                                        </div>
-                                                        <div class="text-xs text-slate-400 font-medium truncate w-32">
-                                                            ${name}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <span class="px-2 py-1 rounded-md text-xs font-bold ${a.total > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500'}">
-                                                        ${a.total} <span class="font-normal opacity-70">flights</span>
-                                                    </span>
-                                                </div>
-                                            </a>`;
+                                                            <div class="flex items-center gap-3">
+                                                                <div class="w-10 h-10 rounded-lg bg-ivao-blue/5 dark:bg-ivao-blue/20 text-ivao-blue dark:text-blue-400 flex items-center justify-center font-bold text-sm">
+                                                                    ${a.icao.substr(2)}
+                                                                </div>
+                                                                <div>
+                                                                    <div class="font-bold text-slate-700 dark:text-slate-200 text-sm group-hover:text-ivao-blue dark:group-hover:text-blue-400 transition-colors">
+                                                                            ${a.icao}
+                                                                    </div>
+                                                                    <div class="text-xs text-slate-400 font-medium truncate w-32">
+                                                                        ${name}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <span class="px-2 py-1 rounded-md text-xs font-bold ${a.total > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500'}">
+                                                                    ${a.total} <span class="font-normal opacity-70">flights</span>
+                                                                </span>
+                                                            </div>
+                                                        </a>`;
                 });
                 airportContainer.innerHTML = html;
             }

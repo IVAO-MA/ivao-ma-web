@@ -101,15 +101,35 @@ class IvaoFlightsService
         $arrivals = [];
         $activeAtcs = [];
 
+        $uniqueDepartures = [];
+        $uniqueArrivals = [];
+
         foreach ($pilots as $p) {
             $dep = strtoupper($p['flightPlan']['departureId'] ?? '');
             $arr = strtoupper($p['flightPlan']['arrivalId'] ?? '');
+            $vid = $p['userId'] ?? null;
 
-            if ($this->isMoroccan($dep))
-                $departures[] = $this->mapFlight($p);
-            if ($this->isMoroccan($arr))
-                $arrivals[] = $this->mapFlight($p);
+            if ($this->isMoroccan($dep)) {
+                $mapped = $this->mapFlight($p);
+                if ($vid) {
+                    $uniqueDepartures[$vid] = $mapped;
+                } else {
+                    $departures[] = $mapped;
+                }
+            }
+
+            if ($this->isMoroccan($arr)) {
+                $mapped = $this->mapFlight($p);
+                if ($vid) {
+                    $uniqueArrivals[$vid] = $mapped;
+                } else {
+                    $arrivals[] = $mapped;
+                }
+            }
         }
+
+        $departures = array_merge($departures, array_values($uniqueDepartures));
+        $arrivals = array_merge($arrivals, array_values($uniqueArrivals));
 
         foreach ($atcs as $a) {
             $callsign = strtoupper($a['callsign'] ?? '');

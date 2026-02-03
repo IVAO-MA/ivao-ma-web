@@ -5,10 +5,22 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AirportController;
 use App\Http\Controllers\WikiController;
+use App\Http\Controllers\PageController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/vaip', [AirportController::class, 'index'])->name('airports.index');
+Route::get('/vaip', [AirportController::class, 'index'])->name('vaip.index');
+Route::get('/airports', [AirportController::class, 'list'])->name('airports.index');
+
+// New Placeholder Pages
+Route::get('/about-us', [PageController::class, 'aboutUs'])->name('about-us');
+Route::get('/division-transfer', [PageController::class, 'divisionTransfer'])->name('division-transfer');
+Route::get('/become-atc', [PageController::class, 'becomeAtc'])->name('become-atc');
+Route::get('/become-pilot', [PageController::class, 'becomePilot'])->name('become-pilot');
+Route::get('/training-request', [PageController::class, 'trainingRequest'])->name('training-request');
+Route::get('/exams', [PageController::class, 'exams'])->name('exams');
+Route::get('/gca', [PageController::class, 'gca'])->name('gca');
+
 Route::get('/wiki', [WikiController::class, 'index'])->name('wiki.index');
 Route::get('/wiki/{slug}', [WikiController::class, 'show'])->name('wiki.show');
 Route::get('/learning-pathways', [App\Http\Controllers\LearningPathwayController::class, 'index'])->name('learning-pathways.index');

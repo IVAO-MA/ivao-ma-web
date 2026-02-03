@@ -10,4 +10,10 @@ class AirportController extends Controller
     {
         return view('eaip.index');
     }
+
+    public function list()
+    {
+        $airports = \App\Models\Airport::orderBy('icao')->get();
+        return view('airports.index', compact('airports'));
+    }
 }

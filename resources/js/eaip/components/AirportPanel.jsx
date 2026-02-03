@@ -11,6 +11,15 @@ function AirportPanel({ airport: initialAirport, onClose, darkMode }) {
   // Initialize with passed data + missing airports fallback
   const [airport, setAirport] = useState({ ...missingAirports[initialAirport.icao], ...initialAirport });
 
+  // Helper to extract display string from modern JSON objects or legacy strings
+  const getDisplayString = (val) => {
+    if (!val) return '';
+    if (typeof val === 'object') {
+      return val.en || Object.values(val)[0] || '';
+    }
+    return String(val);
+  };
+
   const [activeTab, setActiveTab] = useState('overview');
   const [metar, setMetar] = useState(null);
   const [metarLoading, setMetarLoading] = useState(false);
@@ -77,7 +86,7 @@ function AirportPanel({ airport: initialAirport, onClose, darkMode }) {
         <div className="header-overlay"></div>
         <div className="header-title">
           <h2>{airport.icao}{airport.iata ? `/${airport.iata}` : ''}</h2>
-          {airport.name && <p className="airport-name-subtitle">{airport.name}</p>}
+          {airport.name && <p className="airport-name-subtitle">{getDisplayString(airport.name)}</p>}
 
           {/* METAR Display in Header */}
           <div className="header-metar">
@@ -138,7 +147,7 @@ function AirportPanel({ airport: initialAirport, onClose, darkMode }) {
 
               <div className="info-item">
                 <label>City</label>
-                <div className="info-value">{airport.city || 'N/A'}</div>
+                <div className="info-value">{getDisplayString(airport.city) || 'N/A'}</div>
               </div>
 
               <div className="info-item">

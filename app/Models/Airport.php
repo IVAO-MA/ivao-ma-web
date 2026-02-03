@@ -14,6 +14,8 @@ class Airport extends Model
         'runways',
         'picture_path',
         'scenery_link',
+        'scenery_sim',
+        'scenery_type',
         'charts_link',
         'type',
         'latitude',
@@ -24,6 +26,8 @@ class Airport extends Model
     ];
 
     protected $casts = [
+        'name' => 'array',
+        'city' => 'array',
         'runways' => 'array',
         'frequencies' => 'array',
     ];

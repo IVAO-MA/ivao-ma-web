@@ -55,11 +55,21 @@ function App() {
   // Filter airports by search term
   const filteredAirports = airports.filter(airport => {
     const searchLower = searchTerm.toLowerCase();
+
+    // Helper to extract searchable string from modern JSON objects or legacy strings
+    const getSearchable = (val) => {
+      if (!val) return '';
+      if (typeof val === 'object') {
+        return (val.en || Object.values(val)[0] || '').toLowerCase();
+      }
+      return String(val).toLowerCase();
+    };
+
     return (
       (airport.icao?.toLowerCase() || '').includes(searchLower) ||
       (airport.iata?.toLowerCase() || '').includes(searchLower) ||
-      (airport.name?.toLowerCase() || '').includes(searchLower) ||
-      (airport.city?.toLowerCase() || '').includes(searchLower)
+      getSearchable(airport.name).includes(searchLower) ||
+      getSearchable(airport.city).includes(searchLower)
     );
   });
 

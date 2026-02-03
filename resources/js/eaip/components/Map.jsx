@@ -19,6 +19,15 @@ L.Icon.Default.mergeOptions({
 function Map({ airports, selectedAirport, onAirportSelect, darkMode }) {
   console.log('🗺️ Map component rendering, airports count:', airports?.length || 0);
 
+  // Helper to extract display string from modern JSON objects or legacy strings
+  const getDisplayString = (val) => {
+    if (!val) return '';
+    if (typeof val === 'object') {
+      return val.en || Object.values(val)[0] || '';
+    }
+    return String(val);
+  };
+
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markersRef = useRef({});
@@ -115,14 +124,14 @@ function Map({ airports, selectedAirport, onAirportSelect, darkMode }) {
 
       const marker = L.marker([lat, lon], {
         icon: markerIcon,
-        title: airport.name,
+        title: getDisplayString(airport.name),
         zIndexOffset: isSelected ? 1000 : 0
       })
         .bindPopup(`
           <div class="airport-popup">
             <strong>${airport.icao}</strong> ${airport.iata ? `(${airport.iata})` : ''}<br>
-            ${airport.name}<br>
-            <small>${airport.city}</small>
+            ${getDisplayString(airport.name)}<br>
+            <small>${getDisplayString(airport.city)}</small>
           </div>
         `)
         .on('click', () => {
