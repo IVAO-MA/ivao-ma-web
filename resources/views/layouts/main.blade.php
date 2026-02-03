@@ -591,9 +591,23 @@
 
             <div
                 class="border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 font-medium">
-                <div>
+                <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
                     <p>&copy; 2026, IVAO Morocco. All Right Reserved.</p>
+
+                    <a href="https://hb9d5trwjt0h.statuspage.io" target="_blank"
+                        class="flex items-center gap-2 hover:opacity-80 transition-opacity group" id="status-indicator">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75"
+                                id="status-dot-ping"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-400" id="status-dot"></span>
+                        </span>
+                        <span id="status-text"
+                            class="group-hover:text-ivao-blue dark:group-hover:text-blue-400 transition-colors">System
+                            Status</span>
+                    </a>
                 </div>
+
                 <div class="mt-4 md:mt-0 text-right">
                     <p>Built by Abdellah C 710267</p>
                     <p class="opacity-50 mt-1 uppercase tracking-tighter text-[10px]">v2.6.2-STABLE</p>
@@ -603,8 +617,46 @@
     </footer>
 
     <!-- Theme Toggle Logic -->
-    <!-- Theme Toggle Logic -->
     @include('partials.theme-script')
+
+    <!-- Statuspage Integration -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusDot = document.getElementById('status-dot');
+            const statusPing = document.getElementById('status-dot-ping');
+            const statusText = document.getElementById('status-text');
+
+            if (!statusDot || !statusText) return;
+
+            fetch('https://hb9d5trwjt0h.statuspage.io/api/v2/status.json')
+                .then(response => response.json())
+                .then(data => {
+                    const indicator = data.status.indicator;
+                    const description = data.status.description;
+
+                    statusText.textContent = description;
+
+                    // Reset classes
+                    statusDot.className = 'relative inline-flex rounded-full h-2 w-2 ';
+                    statusPing.className = 'animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ';
+
+                    if (indicator === 'none') {
+                        statusDot.classList.add('bg-emerald-500');
+                        statusPing.classList.add('bg-emerald-400');
+                    } else if (indicator === 'minor' || indicator === 'maint') {
+                        statusDot.classList.add('bg-amber-500');
+                        statusPing.classList.add('bg-amber-400');
+                    } else {
+                        statusDot.classList.add('bg-rose-500');
+                        statusPing.classList.add('bg-rose-400');
+                    }
+                })
+                .catch(error => {
+                    console.error('Statuspage fetch failed:', error);
+                    statusText.textContent = 'System Status';
+                });
+        });
+    </script>
 </body>
 
 </html>
