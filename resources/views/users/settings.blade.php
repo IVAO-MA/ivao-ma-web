@@ -5,7 +5,7 @@
 @section('content')
     <div class="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
         <!-- Dashboard Header / Hero -->
-        <div class="relative overflow-hidden bg-ivao-blue dark:bg-slate-900 pt-32 pb-48 px-6">
+        <div class="relative bg-ivao-blue dark:bg-slate-900 pt-32 pb-56 px-6">
             <!-- Decorative Elements -->
             <div class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
                 <img src="https://www.ivao.aero/publrelat/branding/svg_logos/MA.svg"
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Main Dashboard Content -->
-        <div class="container mx-auto max-w-6xl -mt-24 pb-20 px-6">
+        <div class="container mx-auto max-w-6xl -mt-24 pb-20 px-6 relative z-20">
             <div class="grid lg:grid-cols-12 gap-8" x-data="{ section: 'overview' }">
 
                 <!-- Navigation Sidebar -->
@@ -182,8 +182,7 @@
                                     <p class="text-5xl font-black text-slate-900 dark:text-white">{{ $user->division }}</p>
                                     <p class="text-sm font-bold text-slate-400 leading-relaxed max-w-[200px]">You are
                                         currently registered as an active member of this division.</p>
-                                    <a href="https://ivao.aero/Member.aspx?ID={{ $user->vid }}"
-                                        target="_blank"
+                                    <a href="https://ivao.aero/Member.aspx?ID={{ $user->vid }}" target="_blank"
                                         class="inline-flex items-center gap-2 text-ivao-blue font-black text-xs uppercase tracking-widest mt-4 hover:gap-3 transition-all">
                                         View IVAO Profile
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
