@@ -157,12 +157,6 @@
                                             VID</span>
                                         <span class="font-black text-ivao-blue">#{{ $user->vid }}</span>
                                     </div>
-                                    <div class="flex items-center justify-between py-3">
-                                        <span
-                                            class="text-sm font-bold text-slate-400 uppercase tracking-wider">Registration</span>
-                                        <span
-                                            class="font-black text-slate-900 dark:text-white">{{ $user->created_at->format('M d, Y') }}</span>
-                                    </div>
                                 </div>
                             </div>
 
@@ -188,7 +182,7 @@
                                     <p class="text-5xl font-black text-slate-900 dark:text-white">{{ $user->division }}</p>
                                     <p class="text-sm font-bold text-slate-400 leading-relaxed max-w-[200px]">You are
                                         currently registered as an active member of this division.</p>
-                                    <a href="https://ivao.aero/members/person/details5.asp?Id={{ $user->vid }}"
+                                    <a href="https://ivao.aero/Member.aspx?ID={{ $user->vid }}"
                                         target="_blank"
                                         class="inline-flex items-center gap-2 text-ivao-blue font-black text-xs uppercase tracking-widest mt-4 hover:gap-3 transition-all">
                                         View IVAO Profile
