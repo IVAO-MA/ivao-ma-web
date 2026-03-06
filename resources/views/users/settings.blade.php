@@ -5,11 +5,11 @@
 @section('content')
     <div class="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
         <!-- Dashboard Header / Hero -->
-        <div class="relative bg-ivao-blue dark:bg-slate-900 pt-32 pb-56 px-6">
+        <div class="relative bg-gradient-to-br from-ivao-blue to-blue-900 dark:from-slate-900 dark:to-slate-950 pt-32 pb-56 px-6">
             <!-- Decorative Elements -->
-            <div class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
+            <div class="absolute top-0 right-0 w-1/3 h-full opacity-[0.07] pointer-events-none">
                 <img src="https://www.ivao.aero/publrelat/branding/svg_logos/MA.svg"
-                    class="w-full h-full object-contain scale-150">
+                    class="w-full h-full object-contain scale-150 filter brightness-0 invert">
             </div>
             <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
 
