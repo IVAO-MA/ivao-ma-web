@@ -22,46 +22,45 @@ class WikiArticleResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $contentBuilder = Forms\Components\Builder::make('content')
-            ->blocks([
-                Forms\Components\Builder\Block::make('markdown')
-                    ->label('Markdown Text')
-                    ->icon('heroicon-o-list-bullet')
-                    ->schema([
-                        Forms\Components\MarkdownEditor::make('body')->required()->label('Markdown Content'),
-                    ]),
-                Forms\Components\Builder\Block::make('aviation_alert')
-                    ->label('Aviation Alert / Tab')
-                    ->icon('heroicon-o-exclamation-triangle')
-                    ->schema([
-                        Forms\Components\Select::make('type')
-                            ->options([
-                                'notam' => 'NOTAM (Warning - Red)',
-                                'tip' => 'ATC Tip (Info - Blue)',
-                                'regulation' => 'Regulation (Alert - Yellow)',
-                            ])->required(),
-                        Forms\Components\Textarea::make('message')->required(),
-                    ]),
-                Forms\Components\Builder\Block::make('button_link')
-                    ->label('Action Button')
-                    ->icon('heroicon-o-link')
-                    ->schema([
-                        Forms\Components\TextInput::make('url')->url()->required()->label('Link URL'),
-                        Forms\Components\TextInput::make('label')->required()->label('Button Text'),
-                        Forms\Components\Select::make('style')
-                            ->options([
-                                'primary' => 'Primary (Blue)',
-                                'secondary' => 'Secondary (Gray)',
-                            ])->default('primary'),
-                    ]),
-                Forms\Components\Builder\Block::make('image')
-                    ->label('Image via URL')
-                    ->icon('heroicon-o-photo')
-                    ->schema([
-                        Forms\Components\TextInput::make('url')->url()->required()->label('Image Source URL'),
-                        Forms\Components\TextInput::make('caption')->label('Optional Caption'),
-                    ]),
-            ])->collapsible();
+        $getBlockSchema = fn() => [
+            Forms\Components\Builder\Block::make('markdown')
+                ->label('Markdown Text')
+                ->icon('heroicon-o-list-bullet')
+                ->schema([
+                    Forms\Components\MarkdownEditor::make('body')->required()->label('Markdown Content'),
+                ]),
+            Forms\Components\Builder\Block::make('aviation_alert')
+                ->label('Aviation Alert / Tab')
+                ->icon('heroicon-o-exclamation-triangle')
+                ->schema([
+                    Forms\Components\Select::make('type')
+                        ->options([
+                            'notam' => 'NOTAM (Warning - Red)',
+                            'tip' => 'ATC Tip (Info - Blue)',
+                            'regulation' => 'Regulation (Alert - Yellow)',
+                        ])->required(),
+                    Forms\Components\Textarea::make('message')->required(),
+                ]),
+            Forms\Components\Builder\Block::make('button_link')
+                ->label('Action Button')
+                ->icon('heroicon-o-link')
+                ->schema([
+                    Forms\Components\TextInput::make('url')->url()->required()->label('Link URL'),
+                    Forms\Components\TextInput::make('label')->required()->label('Button Text'),
+                    Forms\Components\Select::make('style')
+                        ->options([
+                            'primary' => 'Primary (Blue)',
+                            'secondary' => 'Secondary (Gray)',
+                        ])->default('primary'),
+                ]),
+            Forms\Components\Builder\Block::make('image')
+                ->label('Image via URL')
+                ->icon('heroicon-o-photo')
+                ->schema([
+                    Forms\Components\TextInput::make('url')->url()->required()->label('Image Source URL'),
+                    Forms\Components\TextInput::make('caption')->label('Optional Caption'),
+                ]),
+        ];
 
         return $form
             ->schema([
@@ -74,17 +73,23 @@ class WikiArticleResource extends Resource
                     Forms\Components\TextInput::make('title.en')->required()->label('Title (EN)'),
                     Forms\Components\TextInput::make('title.fr')->required()->label('Title (FR)'),
                     Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
-                    Forms\Components\Toggle::make('is_published')->default(false),
+                    Forms\Components\Toggle::make('is_published')->default(true),
                     Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
                 ])->columns(2),
 
                 Forms\Components\Section::make('English Content')
                     ->schema([
-                        $contentBuilder->name('content.en')->label('Blocks (English)'),
+                        Forms\Components\Builder::make('content.en')
+                            ->label('Blocks (English)')
+                            ->blocks($getBlockSchema())
+                            ->collapsible(),
                     ]),
                 Forms\Components\Section::make('French Content')
                     ->schema([
-                        $contentBuilder->name('content.fr')->label('Blocks (French)'),
+                        Forms\Components\Builder::make('content.fr')
+                            ->label('Blocks (French)')
+                            ->blocks($getBlockSchema())
+                            ->collapsible(),
                     ])->collapsed(),
             ]);
     }
