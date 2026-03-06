@@ -57,14 +57,14 @@
                     <div class="hidden lg:flex gap-4 self-center">
                         <div
                             class="bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-3xl text-center min-w-[120px]">
-                            <img src="https://ivao.aero/Content/Ratings/ATC/{{ $user->rating_atc }}.gif"
-                                class="h-6 mx-auto mb-2 filter brightness-0 invert opacity-80">
+                            <img src="https://ivao.aero/data/images/ratings/atc/{{ $user->rating_atc }}.gif"
+                                class="h-8 mx-auto mb-2 opacity-90">
                             <p class="text-[10px] font-black text-white/50 uppercase tracking-widest">ATC Rating</p>
                         </div>
                         <div
                             class="bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-3xl text-center min-w-[120px]">
-                            <img src="https://ivao.aero/Content/Ratings/Pilot/{{ $user->rating_pilot }}.gif"
-                                class="h-6 mx-auto mb-2 filter brightness-0 invert opacity-80">
+                            <img src="https://ivao.aero/data/images/ratings/pilot/{{ $user->rating_pilot }}.gif"
+                                class="h-8 mx-auto mb-2 opacity-90">
                             <p class="text-[10px] font-black text-white/50 uppercase tracking-widest">Pilot Rating</p>
                         </div>
                     </div>
@@ -258,9 +258,9 @@
                                 </div>
 
                                 <div
-                                    class="bg-slate-50 dark:bg-slate-950 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 mb-6">
-                                    <img src="https://ivao.aero/Content/Ratings/ATC/{{ $user->rating_atc }}.gif"
-                                        class="h-10 mb-4 rounded shadow-sm">
+                                    class="bg-slate-50 dark:bg-slate-950 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 mb-6 flex items-center gap-4">
+                                    <img src="https://ivao.aero/data/images/ratings/atc/{{ $user->rating_atc }}.gif"
+                                        class="h-10 rounded shadow-sm">
                                     <p class="text-2xl font-black text-ivao-blue tracking-tight">
                                         @php
                                             $ratings_atc = [
@@ -318,15 +318,15 @@
                                 </div>
 
                                 <div
-                                    class="bg-slate-50 dark:bg-slate-950 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 mb-6">
-                                    <img src="https://ivao.aero/Content/Ratings/Pilot/{{ $user->rating_pilot }}.gif"
-                                        class="h-10 mb-4 rounded shadow-sm">
+                                    class="bg-slate-50 dark:bg-slate-950 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 mb-6 flex items-center gap-4">
+                                    <img src="https://ivao.aero/data/images/ratings/pilot/{{ $user->rating_pilot }}.gif"
+                                        class="h-10 rounded shadow-sm">
                                     <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">
                                         @php
                                             $ratings_pilot = [
-                                                2 => 'FS1 - Flight Student 1',
-                                                3 => 'FS2 - Flight Student 2',
-                                                4 => 'FS3 - Flight Student 3',
+                                                2 => 'FS1 - Basic Flight Student',
+                                                3 => 'FS2 - Flight Student',
+                                                4 => 'FS3 - Advanced Flight Student',
                                                 5 => 'PP - Private Pilot',
                                                 6 => 'SPP - Senior Private Pilot',
                                                 7 => 'CP - Commercial Pilot',
