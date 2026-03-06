@@ -43,7 +43,7 @@ class EventResource extends Resource
                     'event' => 'Event',
                     'rfe' => 'RFE',
                 ])->required(),
-                Forms\Components\FileUpload::make('image_path')->image(),
+                Forms\Components\TextInput::make('image_path')->url()->label('Image URL'),
             ]);
     }
 

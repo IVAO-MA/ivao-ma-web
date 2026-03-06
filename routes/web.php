@@ -22,7 +22,9 @@ Route::get('/exams', [PageController::class, 'exams'])->name('exams');
 Route::get('/gca', [PageController::class, 'gca'])->name('gca');
 
 Route::get('/wiki', [WikiController::class, 'index'])->name('wiki.index');
-Route::get('/wiki/{slug}', [WikiController::class, 'show'])->name('wiki.show');
+Route::get('/wiki/{domainSlug}', [WikiController::class, 'domain'])->name('wiki.domain');
+Route::get('/wiki/{domainSlug}/{manualSlug}', [WikiController::class, 'manual'])->name('wiki.manual');
+Route::get('/wiki/{domainSlug}/{manualSlug}/{articleSlug}', [WikiController::class, 'article'])->name('wiki.article');
 Route::get('/learning-pathways', [App\Http\Controllers\LearningPathwayController::class, 'index'])->name('learning-pathways.index');
 
 // Placeholder Routes for Menu Items
