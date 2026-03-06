@@ -10,4 +10,6 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/airports', [EAIPController::class, 'getAirports']);
 Route::get('/airport/{icao}', [EAIPController::class, 'getAirport']);
+Route::get('/flights/{icao}', [EAIPController::class, 'getFlights']);
 Route::get('/metar/{icao}', [EAIPController::class, 'getMetar']);
+Route::get('/ivao/gmmm-ctr', [EAIPController::class, 'getFirStatus']);

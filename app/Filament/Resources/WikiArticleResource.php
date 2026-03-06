@@ -75,6 +75,9 @@ class WikiArticleResource extends Resource
                     Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
                     Forms\Components\Toggle::make('is_published')->default(true),
                     Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
+                    Forms\Components\Hidden::make('user_id')
+                        ->default(fn() => auth()->id())
+                        ->required(),
                 ])->columns(2),
 
                 Forms\Components\Section::make('English Content')
@@ -90,6 +93,29 @@ class WikiArticleResource extends Resource
                             ->label('Blocks (French)')
                             ->blocks($getBlockSchema())
                             ->collapsible(),
+                    ])->collapsed(),
+
+                Forms\Components\Section::make('Changelog / Revision History')
+                    ->description('Log significant updates to this article.')
+                    ->schema([
+                        Forms\Components\Repeater::make('changes')
+                            ->relationship('changes')
+                            ->schema([
+                                Forms\Components\TextInput::make('description')
+                                    ->required()
+                                    ->placeholder('e.g. Updated charts for GMMN, fixed typos in French version')
+                                    ->columnSpan(2),
+                                Forms\Components\Hidden::make('user_id')
+                                    ->default(fn() => auth()->id()),
+                                Forms\Components\Placeholder::make('created_at')
+                                    ->label('Date')
+                                    ->content(fn($record) => $record?->created_at?->diffForHumans() ?? 'New'),
+                            ])
+                            ->columns(3)
+                            ->defaultItems(0)
+                            ->addActionLabel('Add Change Log Entry')
+                            ->collapsible()
+                            ->collapsed(),
                     ])->collapsed(),
             ]);
     }
@@ -109,6 +135,13 @@ class WikiArticleResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title.en')->label('Title')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('user.vid')
+                    ->label('Author VID')
+                    ->badge()
+                    ->color('gray')
+                    ->url(fn($record) => $record->user?->vid ? "https://ivao.aero/members/person/details5.asp?Id={$record->user->vid}" : null)
+                    ->openUrlInNewTab()
+                    ->sortable(),
                 Tables\Columns\ToggleColumn::make('is_published'),
                 Tables\Columns\TextColumn::make('sort_order')->sortable(),
             ])

@@ -138,4 +138,63 @@ class EAIPController extends Controller
             }
         });
     }
+
+    /**
+     * Get real-time flights for an airport from IVAO.
+     */
+    public function getFlights($icao, \App\Services\IvaoFlightsService $ivao)
+    {
+        $icao = strtoupper($icao);
+        $traffic = $ivao->moroccanTraffic();
+
+        // Filter flights where this airport is the origin (departures) or destination (arrivals)
+        $departures = collect($traffic['departures'] ?? [])->filter(fn($f) => ($f['departure'] ?? '') === $icao);
+        $arrivals = collect($traffic['arrivals'] ?? [])->filter(fn($f) => ($f['arrival'] ?? '') === $icao);
+
+        // Map to the format expected by the React frontend (FlightTab.jsx)
+        $data = $departures->map(function ($f, $index) use ($icao) {
+            return [
+                'id' => "dep-{$icao}-{$index}",
+                'type' => 'departure',
+                'callsignICAO' => $f['callsign'],
+                'callsignIATA' => $f['callsign'], // Fallback
+                'flightNumber' => $f['callsign'], // Fallback
+                'status' => $f['onGround'] ? 'boarding' : 'departed',
+                'origin' => ['icao' => $f['departure']],
+                'destination' => ['icao' => $f['arrival']],
+                'aircraft' => ['type' => $f['aircraft']],
+                'departure' => ['scheduled' => now()->toIso8601String()],
+                'arrival' => ['scheduled' => now()->addHours(2)->toIso8601String()],
+                'airline' => ['codeIATA' => substr($f['callsign'], 0, 3), 'codeICAO' => substr($f['callsign'], 0, 3)],
+                'distance' => 500,
+            ];
+        })->values()->toArray();
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Check if Casablanca Control (GMMM_CTR) is online on IVAO.
+     */
+    public function getFirStatus(\App\Services\IvaoFlightsService $ivao)
+    {
+        $traffic = $ivao->moroccanTraffic();
+        $atcs = $traffic['atcs'] ?? [];
+
+        $isOnline = collect($atcs)->contains(function ($atc) {
+            return str_contains(strtoupper($atc['callsign'] ?? ''), 'GMMM_CTR');
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'online' => $isOnline,
+                'callsign' => 'GMMM_CTR',
+                'updated_at' => $traffic['updatedAt'] ?? now()->toIso8601String()
+            ]
+        ]);
+    }
 }

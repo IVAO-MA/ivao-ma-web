@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlaneDeparture, faPlaneArrival, faSync, faBroadcastTower, faPlane, faFileExport } from '@fortawesome/free-solid-svg-icons';
 import './FlightTab.css';
 
-const API_BASE = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3001';
+const API_BASE = ''; // Relative path since served by Laravel
 
 // Flight Status Color Helpers
 const getStatusColor = (status) => {

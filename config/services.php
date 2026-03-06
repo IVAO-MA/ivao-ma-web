@@ -37,6 +37,9 @@ return [
 
     'ivao' => [
         'api_key' => env('IVAO_API_KEY'),
+        'client_id' => env('IVAO_CLIENT_ID'),
+        'client_secret' => env('IVAO_CLIENT_SECRET'),
+        'redirect_uri' => env('IVAO_REDIRECT_URI'),
     ],
 
 ];

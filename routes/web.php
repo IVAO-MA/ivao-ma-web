@@ -40,6 +40,19 @@ Route::get('locale/{locale}', function ($locale) {
 
 Route::post('/ivao/refresh', [App\Http\Controllers\IvaoController::class, 'refresh'])->name('ivao.refresh');
 
+// Auth Routes
+Route::prefix('auth/ivao')->group(function () {
+    Route::get('/redirect', [App\Http\Controllers\Auth\IvaoAuthController::class, 'redirect'])->name('auth.ivao.redirect');
+    Route::get('/callback', [App\Http\Controllers\Auth\IvaoAuthController::class, 'callback'])->name('auth.ivao.callback');
+    Route::post('/logout', [App\Http\Controllers\Auth\IvaoAuthController::class, 'logout'])->name('auth.ivao.logout');
+});
+
+// User Profile Routes
+Route::middleware(['auth'])->prefix('users')->group(function () {
+    Route::get('/settings', [App\Http\Controllers\UserController::class, 'settings'])->name('users.settings');
+    Route::post('/settings', [App\Http\Controllers\UserController::class, 'updateSettings'])->name('users.settings.update');
+});
+
 // Dismiss live event banner
 Route::post('/dismiss-live-event/{event}', function ($eventId) {
     session(['dismissed_live_event_' . $eventId => true]);

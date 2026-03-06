@@ -31,7 +31,11 @@ class WikiController extends Controller
     {
         $domain = \App\Models\WikiDomain::where('slug', $domainSlug)->firstOrFail();
         $manual = \App\Models\WikiManual::where('slug', $manualSlug)->where('domain_id', $domain->id)->firstOrFail();
-        $article = \App\Models\WikiArticle::where('slug', $articleSlug)->where('manual_id', $manual->id)->where('is_published', true)->firstOrFail();
+        $article = \App\Models\WikiArticle::where('slug', $articleSlug)
+            ->where('manual_id', $manual->id)
+            ->where('is_published', true)
+            ->with(['user', 'changes.user'])
+            ->firstOrFail();
 
         // Load sidebar articles for navigation
         $sidebarArticles = \App\Models\WikiArticle::where('manual_id', $manual->id)->where('is_published', true)->orderBy('sort_order')->get();

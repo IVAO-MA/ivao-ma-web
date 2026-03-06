@@ -20,7 +20,16 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'vid',
         'password',
+        'rating_atc',
+        'rating_pilot',
+        'division',
+        'staff',
+        'gca',
+        'discord',
+        'notifications_enabled',
+        'ivao_token',
     ];
 
     /**
@@ -31,6 +40,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'ivao_token',
     ];
 
     /**
@@ -43,6 +53,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'staff' => 'array',
+            'gca' => 'array',
+            'notifications_enabled' => 'boolean',
         ];
     }
 }

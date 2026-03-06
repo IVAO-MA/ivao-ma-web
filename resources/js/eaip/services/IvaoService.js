@@ -1,7 +1,7 @@
 // Frontend service for polling IVAO network status
 class IvaoService {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:3001/api';
+        this.apiBaseUrl = '/api';
         this.pollingInterval = null;
         this.pollFrequency = 60000; // 60 seconds
         this.listeners = [];
